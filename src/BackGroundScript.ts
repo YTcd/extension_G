@@ -1,13 +1,15 @@
 let interval = 1000;
-const timeoutID = setInterval(() => {
-  interval =  Math.random() * 1000;
-  const isBodyLoaded = !!document.body;
-  if(isBodyLoaded){
-    clearInterval(timeoutID) ;
+const func = function(interval: number){
+    clearTimeout(timeoutID);
+    interval =  Math.random() * 500;
+    const isBodyLoaded = !!document.body;
+    if(isBodyLoaded){
+      
+    }
+    timeoutID = setTimeout(func,interval);
+}
 
-  }
-  }, interval);
-
+let timeoutID = setTimeout(func,interval);
 
 //   var func = function(hollIndex,itemIndex,time){
 //     hollIndex--;
