@@ -1,0 +1,9 @@
+select {
+    padding: 4px;
+    margin: 4px;
+}
+
+body {
+    color: #222;
+    line-height: 1.5em;
+}
