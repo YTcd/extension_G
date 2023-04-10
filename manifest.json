@@ -14,6 +14,9 @@
     "background": {
         "scripts": ["dist/main.js"],
         "persistent": false
-    }
-
+    },
+    "permissions": [
+        "storage",
+        "tabs"
+    ]
 }
