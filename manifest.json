@@ -1,22 +1,30 @@
 {
     "manifest_version": 2,
-    "name": "My Extension",
-    "description": "Hi Chrome",
+    "name": "알라뷰 굥",
+    "description": "사랑둥이!",
     "version": "1.0.1",
-    "browser_action":{
-        "default_popup": "src/popup.html"
+    "browser_action": {
+        "default_popup": "src/popup.html",
+        "default_icon": "images/128.png"
     },
-    "content_scripts": [{
-        "matches": ["<all_urls>"],
-        "js": ["dist/src/ContentsScript.js"],
-        "run_at": "document_start"
-    }],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "dist/src/ContentsScript.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
     "background": {
-        "scripts": ["dist/src/BackGroundScript.js"],
+        "scripts": [
+            "dist/src/BackGroundScript.js"
+        ],
         "persistent": false
     },
     "permissions": [
-        "storage",
-        "tabs"
+        "activeTab"
     ]
 }

@@ -29,5 +29,6 @@
         "@babel/env"
       ]
     ]
-  }
+  },
+  "type": "module"
 }
