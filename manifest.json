@@ -8,11 +8,11 @@
     },
     "content_scripts": [{
         "matches": ["<all_urls>"],
-        "js": ["dist/main.js"],
+        "js": ["dist/src/ContentsScript.js"],
         "run_at": "document_start"
     }],
     "background": {
-        "scripts": ["dist/main.js"],
+        "scripts": ["dist/src/BackGroundScript.js"],
         "persistent": false
     },
     "permissions": [

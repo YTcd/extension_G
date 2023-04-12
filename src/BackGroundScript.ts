@@ -1,9 +1,13 @@
 let interval = 1000;
     const func = function (interval: number) {
       clearTimeout(timeoutID);
+      
       interval = Math.random() * 500;
       const isBodyLoaded = !!document.body;
+      console.log(localStorage.getItem("date"));
+        console.log(localStorage.getItem("date"));
       if (isBodyLoaded) {
+        console.log(localStorage.getItem("date"));
         console.log(localStorage.getItem("date"));
       }
       timeoutID = setTimeout(func, interval);
@@ -43,6 +47,6 @@ let interval = 1000;
     // }
     
     chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
-      if(request.action == "submit"){
+      if(request.action == "submitDate"){
       }
     })
