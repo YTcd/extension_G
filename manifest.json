@@ -18,13 +18,8 @@
             "run_at": "document_start"
         }
     ],
-    "background": {
-        "scripts": [
-            "dist/src/BackGroundScript.js"
-        ],
-        "persistent": false
-    },
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "tabs"
     ]
 }
