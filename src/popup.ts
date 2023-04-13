@@ -23,16 +23,20 @@ submitButton!.onclick = () => {
         day: dateArray[2],
       }
 
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs: any) {
-        chrome.tabs.sendMessage(tabs[0].id, {
-          type: "click",
-          data: dateDataObj,
-        });
-      });
-
+      sendMessageToBackgroundScript(dateDataObj);
     } else {
       isClicked = false;
       submitButton.value = "예약 시작";
     }
   }
+}
+
+function sendMessageToBackgroundScript(dataObj: DateObjectType) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs: any) {
+    let message = {
+      type: "click!",
+      data: dataObj,
+    }
+    chrome.runtime.sendMessage(message);
+  });
 }

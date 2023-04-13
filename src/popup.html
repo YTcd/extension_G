@@ -10,7 +10,22 @@
     <!-- <img src="/images/128.png"> -->
     <label>날짜: </label>
     <input type="date" id="reservationDate" value="2023-01-01" min="2023-01-01" max="2030-12-31">
-    <input type="button" id="submit" value="시작">
+
+    <div>
+        <label><input type="checkbox" id="hollName1" value="VALLEY">VALLEY</label>
+        <label><input type="checkbox" id="hollName2" value="LAKE">LAKE</label>
+        <label><input type="checkbox" id="hollName3" value="HILL">HILL</label>
+        <label><input type="checkbox" id="hollName4" value="XXXX">XXXX</label>
+    </div>
+    <div>
+        <label>시작 시간</label>
+        <input type="time" name="startTime">
+        <label>끝 시간</label>
+        <input type="time" name="endtime">
+    </div>
+    <div id="submitArea">
+        <input type="button" id="submit" value="시작">
+    </div>
     <script src="/dist/src/popup.js"></script>
 </body>
 

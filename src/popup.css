@@ -7,3 +7,7 @@ body {
     color: #222;
     line-height: 1.5em;
 }
+
+div {
+    padding: 5px;
+}
