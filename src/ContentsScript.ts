@@ -75,6 +75,13 @@ function setDay() {
     return promise;
 }
 
+function setHoll() {
+
+}
+
+function setItemIndex() {
+
+}
 //   var func = function(hollIndex,itemIndex,time){
   //     hollIndex--;
   //     itemIndex--;

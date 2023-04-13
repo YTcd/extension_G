@@ -2,6 +2,8 @@ type DateObjectType = {
   year: string,
   month: string,
   day: string,
+  hollArr: boolean[],
+
 }
 //예약 시작 버튼
 let submitButton = document.getElementById("submit") as HTMLElement & { value: any };
@@ -17,10 +19,32 @@ submitButton!.onclick = () => {
       let dateData = document.getElementById("reservationDate") as any;
       dateData = dateData.value;
       let dateArray = dateData.split("-");
+
+      let checkedArr = [];
+      for (let i = 0; i < 4; i++) {
+        let holl = document.getElementById("hollName" + (i + 1)) as any;
+        checkedArr.push(holl.checked);
+      }
+
+      let startTime = document.getElementById("startTime") as HTMLElement & { value: string };
+      let endTime = document.getElementById("endTime") as HTMLElement & { value: string };
+
+      if (startTime
+        && endTime
+        && Array.isArray(dateArray)
+        && checkedArr.length != 0) {
+        isClicked = false;
+        alert("작성이 완료되지 않은 항목이 있습니다.");
+        return;
+      }
+
       let dateDataObj = {
         year: dateArray[0],
         month: dateArray[1],
         day: dateArray[2],
+        hollArr: checkedArr,
+        startTime: startTime.value,
+        endTime: endTime.value,
       }
 
       sendMessageToBackgroundScript(dateDataObj);
