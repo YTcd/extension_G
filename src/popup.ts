@@ -3,7 +3,8 @@ type DateObjectType = {
   month: string,
   day: string,
   hollArr: boolean[],
-
+  startTime: string,
+  endTime: string,
 }
 //예약 시작 버튼
 let submitButton = document.getElementById("submit") as HTMLElement & { value: any };
@@ -26,13 +27,15 @@ submitButton!.onclick = () => {
         checkedArr.push(holl.checked);
       }
 
+      //24시간 기준으로 XX:XX 형식으로 string 데이터가 저장된다.
       let startTime = document.getElementById("startTime") as HTMLElement & { value: string };
       let endTime = document.getElementById("endTime") as HTMLElement & { value: string };
 
-      if (startTime
-        && endTime
-        && Array.isArray(dateArray)
-        && checkedArr.length != 0) {
+      if (!startTime
+        || !endTime
+        || !Array.isArray(dateArray)
+        || checkedArr.length == 0) {
+        alert(dateArray);
         isClicked = false;
         alert("작성이 완료되지 않은 항목이 있습니다.");
         return;
@@ -41,7 +44,7 @@ submitButton!.onclick = () => {
       let dateDataObj = {
         year: dateArray[0],
         month: dateArray[1],
-        day: dateArray[2],
+        day: dateArray[2].replace(/(^0+)/, ""),
         hollArr: checkedArr,
         startTime: startTime.value,
         endTime: endTime.value,

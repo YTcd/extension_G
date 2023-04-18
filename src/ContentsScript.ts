@@ -20,11 +20,18 @@ function runWithRandomDelay() {
     timeoutId = setTimeout(() => {
         setMonth().then(() => {
             setDay().then(() => {
+                setHollAndTime().then(() => {
 
+                }, () => {
+                    console.error("지정한 시간 " + dateData.startTime + "과 " + dateData.endTime + "의 사이에 가능한 예약이 없거나 아직 로드되지 않았습니다.");
+                    runWithRandomDelay();
+                })
             }, () => {
+                console.error("지정한 날짜 " + dateData.day + "일에 가능한 예약이 없거나 아직 로드되지 않았습니다.");
                 runWithRandomDelay();
             });
         }, () => {
+            console.error(dateData.month + "월은 가능한 예약 내역이 없거나 아직 로드되지 않았습니다.");
             runWithRandomDelay();
         });
     }, delay);
@@ -75,8 +82,25 @@ function setDay() {
     return promise;
 }
 
-function setHoll() {
+function setHollAndTime() {
+    let promise = new Promise((resolve, reject) => {
+        let hollList = document.getElementsByClassName("htlist") as HTMLCollection;
+        let isHollChecked = [false, false, false, false];
+        for (let i = 0; i < hollList.length; i++) {
+            if (dateData.hollArr[i] == true) {
+                isHollChecked[i] = true;
+            }
+        }
 
+        // "HH:MM" 양식으로 저장되어있다.
+        let startTimeArr = dateData.startTime.split(":");
+        let endTimeArr = dateData.endTime.split(":");
+
+        let hollContainer = document.getElementsByClassName("hollcont_contain");
+        let timeList = hollContainer[0].children[0].children[0].children[0];
+        console.log(timeList);
+    })
+    return promise;
 }
 
 function setItemIndex() {
