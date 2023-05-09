@@ -25,6 +25,7 @@
         "persistent": false
     },
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "tabs"
     ]
 }

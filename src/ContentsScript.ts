@@ -2,6 +2,8 @@ let dateData: DateObjectType;
 let timeoutId: number;
 let interval = 950;
 let count = 0;
+let isSuccess = false;
+let dictionary = [];
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type == "click!") {
@@ -21,7 +23,8 @@ function runWithRandomDelay() {
         setMonth().then(() => {
             setDay().then(() => {
                 setHollAndTime().then(() => {
-
+                    clearTimeout(timeoutId);
+                    finalizeTheReservation();
                 }, () => {
                     console.error("지정한 시간 " + dateData.startTime + "과 " + dateData.endTime + "의 사이에 가능한 예약이 없거나 아직 로드되지 않았습니다.");
                     runWithRandomDelay();
@@ -64,16 +67,17 @@ function setMonth() {
 function setDay() {
     let promise = new Promise((resolve, reject) => {
         const day: any = document.querySelectorAll('a[href="javascript:void(0);"]');
-        console.log(day);
         for (let i = 0; i < day.length; i++) {
             if (day[i].innerHTML == dateData.day) {
-                if (day[i].className == "golfResvDate end" && day[i].className == "golfResvDate imposs") {
+                if (day[i].className == "golfResvDate end" || day[i].className == "golfResvDate imposs") {
                     alert("해당 일자는 예약이 불가능 합니다.");
                     clearTimeout(timeoutId);
                 } else {
-                    console.log(day[i].className);
-                    day[i].click();
-                    resolve(undefined);
+                    if (isSuccess == false) {
+                        day[i].click();
+                        isSuccess = true;
+                        resolve(undefined);
+                    }
                 }
             }
         }
@@ -96,16 +100,73 @@ function setHollAndTime() {
         let startTimeArr = dateData.startTime.split(":");
         let endTimeArr = dateData.endTime.split(":");
 
-        let hollContainer = document.getElementsByClassName("hollcont_contain");
-        let timeList = hollContainer[0].children[0].children[0].children[0];
-        console.log(timeList);
+        let hollContainer = document.getElementById("divGolfCourseTime2") as any;
+
+        let checkedHoll = [];
+        for (let i = 0; i < 4; i++) {
+            if (isHollChecked[i] == true) {
+                checkedHoll.push(hollContainer.children[i]);
+            }
+        }
+
+        for (let i = 0; i < checkedHoll.length; i++) {
+            let timeList = checkedHoll[i].children[0];
+            if (timeList.childElementCount == 0) {
+                continue;
+            }
+
+            for (let j = 0; j < timeList.childElementCount; j++) {
+                let timeButton = timeList.children[j].children[0];
+                let time = timeList.children[j].children[0].innerText;
+                let splitedTime = time.split(":");
+                if (isOutOfTime(startTimeArr, endTimeArr, splitedTime) == false) {
+                    timeButton.click();
+                    resolve(undefined);
+                }
+            }
+        }
     })
     return promise;
 }
 
-function setItemIndex() {
+function isOutOfTime(startTime: string[], endTime: string[], resTime: string[]): boolean {
+    let sHour = Number(startTime[0]);
+    let sMinute = Number(startTime[1]);
+    let eHour = Number(endTime[0]);
+    let eMinute = Number(endTime[1]);
+    let rHour = Number(resTime[0]);
+    let rMinute = Number(resTime[1]);
 
+    if (Number.isNaN(sHour + sMinute + eHour + eMinute + rHour + rMinute)) {
+        return true;
+    }
+
+    if (sHour > rHour || eHour < rHour) {
+        return true;
+    }
+
+    if (sHour == rHour && sMinute > rMinute) {
+        return true;
+    }
+
+    if (eHour == rHour && eMinute < rMinute) {
+        return true;
+    }
+
+    return false;
 }
+
+function finalizeTheReservation() {
+    let radioButtonY = document.getElementById("golfAgreeN") as any;
+    let radioButtonN = document.getElementById("golfAgreeN") as any;
+    window.scrollTo(0, 2000);
+    radioButtonN.checked = false;
+    radioButtonY.checked = true;
+
+    let finishReserveButton = document.getElementById("finish_reserve") as any;
+    finishReserveButton.click();
+}
+
 //   var func = function(hollIndex,itemIndex,time){
   //     hollIndex--;
   //     itemIndex--;
